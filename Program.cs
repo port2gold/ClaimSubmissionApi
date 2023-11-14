@@ -1,4 +1,7 @@
 
+using ClaimSubmissionApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ClaimSubmissionApi
 {
     public class Program
@@ -8,6 +11,10 @@ namespace ClaimSubmissionApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("DbConnection")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,7 +31,7 @@ namespace ClaimSubmissionApi
             }
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
 
             app.MapControllers();
 
