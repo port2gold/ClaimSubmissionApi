@@ -1,12 +1,11 @@
 ﻿using ClaimSubmissionApi.Data.Enums;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ClaimSubmissionApi.Model
+namespace ClaimSubmissionApi.Data.Dtos
 {
-    public class ApplicationUser : IdentityUser
+    public class UserPayload
     {
         [Required]
         [Column(TypeName = "VARCHAR")]
@@ -27,8 +26,12 @@ namespace ClaimSubmissionApi.Model
         [Column(TypeName = "VARCHAR")]
         [StringLength(100)]
         public string PolicyNumber { get; set; }
+        [Required]
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(100)]
+        public string? Email { get; set; }
         public Gender Gender { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime LastUpdatedAt { get; set; }
+
+        public string? Token { get; set; }
     }
 }

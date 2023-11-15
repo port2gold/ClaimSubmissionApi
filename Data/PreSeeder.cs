@@ -1,4 +1,5 @@
-﻿using ClaimSubmissionApi.Model;
+﻿using ClaimSubmissionApi.Data.Enums;
+using ClaimSubmissionApi.Model;
 using Microsoft.AspNetCore.Identity;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -57,8 +58,8 @@ namespace ClaimSubmissionApi.Data
 
                         if (result.Succeeded)
                         {
-                            await userManager.AddToRoleAsync(user, "Admin");
-                            await userManager.AddToRoleAsync(user, "PolicyHolder");
+                            await userManager.AddToRoleAsync(user, Roles.ADMIN.ToString());
+                            await userManager.AddToRoleAsync(user, Roles.POLICYHOLDER.ToString());
 
                         }
                     }

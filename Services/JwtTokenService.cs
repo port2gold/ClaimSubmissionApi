@@ -20,7 +20,7 @@ namespace ClaimSubmissionApi.Services
             };
             foreach (var role in userRoles)
             {
-                claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, role));
+                claims.Add(new System.Security.Claims.Claim(type :"Role", role));
             }
 
             var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));

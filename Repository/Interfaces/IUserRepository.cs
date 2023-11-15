@@ -2,5 +2,6 @@
 {
     public interface IUserRepository
     {
+        Task<bool> IsRegisteredUser(string email);
     }
 }

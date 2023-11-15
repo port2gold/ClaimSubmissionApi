@@ -15,6 +15,10 @@ namespace ClaimSubmissionApi.Repository
             this.ctx = ctx;
         }
 
+        public async Task<List<Claim>> GetAllClaims()
+        {
+            return await ctx.Claims.ToListAsync();
+        }
         public async Task<List<Claim>> GetClaimsForUser(int userId)
         {
             return await ctx.Claims.Where(x => x.UserId == userId).ToListAsync();
@@ -23,22 +27,23 @@ namespace ClaimSubmissionApi.Repository
         {
             return await ctx.Claims.FirstOrDefaultAsync(x => x.ClaimId == claimId);
         }
-        public async Task ReviewClaim(ReviewClaimDto reviewClaim)
+        public async Task<bool> ReviewClaim(ReviewClaimDto reviewClaim)
         {
             var claim = await ctx.Claims.FirstOrDefaultAsync(x => x.ClaimId == reviewClaim.ClaimId);
 
             if(claim is null)
             {
-                return;
+                return false;
             }
             claim.ClaimStatus = reviewClaim.Status;
             claim.LastModifiedBy = reviewClaim.ReviewedBy;
             claim.LastUpdatedAt = DateTime.Now;
 
             ctx.Update(claim);
-            ctx.SaveChanges();
+            var result = await ctx.SaveChangesAsync();
+            return SaveSuccessful(result);
         }
-        public async Task MakeClaim(MakeClaimDto makeClaim)
+        public async Task<bool> MakeClaim(MakeClaimDto makeClaim)
         {
             Claim claim = new Claim
             {
@@ -50,7 +55,13 @@ namespace ClaimSubmissionApi.Repository
                 UserId = makeClaim.UserId,
             };
             await ctx.Claims.AddAsync(claim);
-            ctx.SaveChanges();
+            var result = await ctx.SaveChangesAsync();
+            return SaveSuccessful(result);
+        }
+
+        private bool SaveSuccessful(int result)
+        {
+            return (result < 1) ? false : true;
         }
     }
 }

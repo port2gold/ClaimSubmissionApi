@@ -7,7 +7,11 @@ namespace ClaimSubmissionApi.Repository.Interfaces
     {
         Task<List<Claim>> GetClaimsForUser(int userId);
         Task<Claim?> GetClaim(long claimId);
-        Task ReviewClaim(ReviewClaimDto reviewClaim);
+        Task<bool> ReviewClaim(ReviewClaimDto reviewClaim);
+        Task<List<Claim>> GetAllClaims();
+        Task<bool> MakeClaim(MakeClaimDto makeClaim);
+
+
 
 
     }

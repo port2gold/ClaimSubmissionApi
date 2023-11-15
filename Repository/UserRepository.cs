@@ -1,15 +1,23 @@
-﻿namespace ClaimSubmissionApi.Repository
+﻿using ClaimSubmissionApi.Data;
+using ClaimSubmissionApi.Data.Dtos;
+using ClaimSubmissionApi.Model;
+using ClaimSubmissionApi.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace ClaimSubmissionApi.Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
-        public UserRepository()
+        private readonly AppDbContext ctx;
+
+        public UserRepository(AppDbContext ctx)
         {
-            
+            this.ctx = ctx;
         }
 
-        public async Task CreateUser()
+        public async Task<bool> IsRegisteredUser(string email)
         {
-
+            return ctx.Users.Any(x => x.Email == email);
         }
 
         public async Task LogIn()
