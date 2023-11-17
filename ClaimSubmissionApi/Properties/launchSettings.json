@@ -5,7 +5,8 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:9004",
-      "sslPort": 0
+      "sslPort": 0,
+      "launchUrl": "swagger"
     }
   },
   "profiles": {

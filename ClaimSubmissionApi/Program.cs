@@ -93,6 +93,7 @@ namespace ClaimSubmissionApi
             app.UseAuthorization();
             app.UseDeveloperExceptionPage();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
