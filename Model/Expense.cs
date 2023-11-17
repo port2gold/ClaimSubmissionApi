@@ -19,6 +19,8 @@ namespace ClaimSubmissionApi.Model
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
+        [ForeignKey("ClaimId")]
+        public long ClaimId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime LastUpdatedAt { get; set; }
         public int LastModifiedBy { get; set;}

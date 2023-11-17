@@ -11,14 +11,16 @@ namespace ClaimSubmissionApi.Services
         {
             var builder = new ContainerBuilder();
             #region Repository
-            builder.RegisterType<IClaimRepository>().As<ClaimsRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<IUserRepository>().As<UserRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ClaimsRepository>().As<IClaimRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
 
 
             #endregion
             #region Services
-            builder.RegisterType<IAuthServices>().As<AuthServices>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthServices>().As<IAuthServices>().InstancePerLifetimeScope();
             #endregion
+
+            
             builder.Build();
         }
     }

@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClaimSubmissionApi.Test", "..\ClaimSubmissionApi.Test\ClaimSubmissionApi.Test.csproj", "{A964AD30-B1C9-4941-BE6B-AEB14AE45C86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{10FDCA6D-D13F-4031-BA4F-8F00B9FFCCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10FDCA6D-D13F-4031-BA4F-8F00B9FFCCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10FDCA6D-D13F-4031-BA4F-8F00B9FFCCD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A964AD30-B1C9-4941-BE6B-AEB14AE45C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A964AD30-B1C9-4941-BE6B-AEB14AE45C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A964AD30-B1C9-4941-BE6B-AEB14AE45C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A964AD30-B1C9-4941-BE6B-AEB14AE45C86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

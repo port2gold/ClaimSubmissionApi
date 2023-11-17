@@ -1,12 +1,9 @@
-
-using Autofac.Core;
 using ClaimSubmissionApi.Data;
-using ClaimSubmissionApi.Model;
 using ClaimSubmissionApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace ClaimSubmissionApi
@@ -24,15 +21,9 @@ namespace ClaimSubmissionApi
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("DbConnection")));
             IocContainer.BuildContainer();
             builder.Services.AddControllers();
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
-            {
-                option.Password.RequireDigit = false;
-                option.Password.RequireLowercase = true;
-                option.Password.RequireNonAlphanumeric = false;
-                option.Password.RequireUppercase = true;
-                option.Lockout.AllowedForNewUsers = false;
-                option.Lockout.MaxFailedAccessAttempts = 5;
-            });
+            
+            builder.Services.AddSingleton<ExceptionHandlingMiddleware>();
+
             builder.Services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,7 +46,33 @@ namespace ClaimSubmissionApi
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Claim Submission Api", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type =ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             var app = builder.Build();
 
@@ -66,11 +83,15 @@ namespace ClaimSubmissionApi
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "Claim Submission Api");
+                });
             }
-
-            app.UseAuthorization();
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseDeveloperExceptionPage();
 
             app.UseEndpoints(endpoints =>
             {
